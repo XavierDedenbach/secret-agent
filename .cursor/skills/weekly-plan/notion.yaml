@@ -1,0 +1,52 @@
+# Notion identifiers for notion-weekly-plan skill.
+# Resolve ALL ids from this file — do not hardcode in prompts.
+#
+# Notion API version 2025-09-03: use data_source_id (not database_id) for queries.
+
+api_version: "2025-09-03"
+
+weekly_plan:
+  parent_replan_page_id: "f834260d-c38c-4903-bcf2-2d8215548233"  # "Weekly Replan" page
+
+  title_property:         "Name"
+  date_property:          "Start Date"
+  pass_property:          "Pass"           # In Progress / Pass / No Pass
+  role_property:          "Role"           # Personal / Work
+  primary_focus_property: "Primary Focus"
+
+  personal:
+    database_id:    "ebf927a2-a191-460f-8be0-fb570bd17743"
+    data_source_id: "295d36b0-f3a6-4db3-b244-5aacb4383a21"
+    role_value:     "Personal"
+    title_format:   "My Weekly Plan {start_md} - {end_md}"
+
+  professional:
+    database_id:    "12a115d4-b829-8011-ab74-d4e2124d3943"
+    data_source_id: "12a115d4-b829-81bd-8efa-000bd5e6151a"
+    role_value:     "Work"
+    title_format:   "{start_md} - {end_md} Technical Goals and Updates"
+    released_property: "Released"  # checkbox — set after sharing with team
+
+goal_tracker:
+  parent_page_id: "817297c7-b421-4500-a500-ffac75ebc125"  # "Goals" page
+  database_id:    "38b5b5e0-c82f-4f53-ac48-50f67d3a242d"
+  data_source_id: "1ffd611f-f433-477f-b2aa-7533d3143332"
+
+  title_property:  "Goal"
+  period_property: "Period"   # date range; typically ~5-6 months
+  focus_property:  "Focus"    # Work / Health / Money / Time Management / …
+  hit_property:    "Hit?"     # checkbox
+  review_property: "Review"   # self-relation (sub-goal linkage)
+
+ceo_responsibilities:
+  parent_page_id:  "2eb115d4-b829-80a8-9fc0-e33d79a33177"
+  database_id:     "2eb115d4-b829-8030-be51-f68040458365"
+  data_source_id:  "2eb115d4-b829-8057-976f-000ba8242b79"
+
+  title_property:      "Name"
+  status_property:     "Status"      # Active / Not active
+  active_status_value: "Active"
+  frequency_property:  "Frequency"   # Daily / Weekly / Monthly / …
+
+pages:
+  goals: "817297c7-b421-4500-a500-ffac75ebc125"

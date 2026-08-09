@@ -1,0 +1,1 @@
+Run the notion-weekly-plan-professional skill for this week. Read `.cursor/skills/notion-weekly-plan-professional/SKILL.md` — owner vision first, then retro, then Linear reconciliation — through step 8 (Notion link + approval).

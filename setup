@@ -1,0 +1,218 @@
+#!/usr/bin/env bash
+# secret-agent setup — register weekly-plan skills with detected coding tools
+set -e
+
+REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+SKILLS_SRC="$REPO_DIR/.cursor/skills"
+
+# ─── Tool detection ─────────────────────────────────────────────────────────
+
+TARGETS=()
+
+if [ -d "$HOME/.claude" ]; then
+    TARGETS+=("$HOME/.claude/skills|Claude Code")
+fi
+
+if [ -d "$HOME/.cursor" ]; then
+    TARGETS+=("$HOME/.cursor/skills|Cursor")
+fi
+
+if [ -d "$HOME/.gemini" ]; then
+    TARGETS+=("$HOME/.gemini/skills|Antigravity (Gemini)")
+fi
+
+usage() {
+    cat <<'USAGE'
+Usage:
+  ./setup                              Install skills into all detected tools
+  ./setup --commands <project> <dir>   Symlink project slash commands into <dir>
+  ./setup --verify                     Test that all skill symlinks resolve
+  ./setup --only <tool>                Install to one tool (claude, cursor, gemini)
+USAGE
+}
+
+link_skills_to() {
+    local target_dir="$1"
+    local label="$2"
+    mkdir -p "$target_dir"
+
+    local linked=() skipped=() removed=()
+    for target in "$target_dir"/*; do
+        [ -L "$target" ] || continue
+        source="$(readlink "$target")"
+        case "$source" in
+            "$SKILLS_SRC"/*)
+                if [ ! -f "$source/SKILL.md" ]; then
+                    removed+=("$(basename "$target")")
+                    rm "$target"
+                fi
+                ;;
+        esac
+    done
+
+    for skill_dir in "$SKILLS_SRC"/*/; do
+        [ ! -d "$skill_dir" ] && continue
+        skill_name="$(basename "$skill_dir")"
+        [ ! -f "$skill_dir/SKILL.md" ] && { skipped+=("$skill_name (no SKILL.md)"); continue; }
+
+        target="$target_dir/$skill_name"
+        if [ -e "$target" ] && [ ! -L "$target" ]; then
+            skipped+=("$skill_name (real dir exists)")
+            continue
+        fi
+
+        ln -snf "$skill_dir" "$target"
+        linked+=("$skill_name")
+    done
+
+    echo "$label: ${#linked[@]} skills linked"
+    for s in "${linked[@]}"; do echo "  ✓ $s"; done
+    if [ ${#skipped[@]} -gt 0 ]; then
+        echo "  Skipped: ${#skipped[@]}"
+        for s in "${skipped[@]}"; do echo "    ⚠ $s"; done
+    fi
+    if [ ${#removed[@]} -gt 0 ]; then
+        echo "  Removed superseded links: ${removed[*]}"
+    fi
+}
+
+install_commands() {
+    local project_name="$1"
+    local target_dir="$2"
+    local source_dir="$REPO_DIR/commands/$project_name"
+
+    if [ ! -d "$source_dir" ]; then
+        echo "No commands found for project: $project_name"
+        return 1
+    fi
+
+    mkdir -p "$target_dir"
+    for target in "$target_dir"/*.md; do
+        [ -L "$target" ] || continue
+        source="$(readlink "$target")"
+        case "$source" in
+            "$source_dir"/*)
+                [ -e "$source" ] || rm "$target"
+                ;;
+        esac
+    done
+
+    local count=0
+    for cmd_file in "$source_dir"/*.md; do
+        [ ! -f "$cmd_file" ] && continue
+        cmd_name="$(basename "$cmd_file")"
+        ln -snf "$cmd_file" "$target_dir/$cmd_name"
+        count=$((count + 1))
+    done
+    echo "Linked $count commands for $project_name → $target_dir"
+}
+
+init_owner_goals() {
+    local state_dir="$SKILLS_SRC/weekly-plan/state"
+    local template="$SKILLS_SRC/weekly-plan/templates/OWNER_GOALS.md"
+    mkdir -p "$state_dir"
+    if [ ! -f "$state_dir/OWNER_GOALS.md" ] && [ -f "$template" ]; then
+        cp "$template" "$state_dir/OWNER_GOALS.md"
+        echo "Initialized $state_dir/OWNER_GOALS.md from template"
+    fi
+}
+
+if [ "$1" = "--verify" ]; then
+    ok=0; broken=0
+    for entry in "${TARGETS[@]}"; do
+        dir="${entry%%|*}"
+        label="${entry##*|}"
+        [ ! -d "$dir" ] && continue
+        for link in "$dir"/*; do
+            [ ! -L "$link" ] && continue
+            name="$(basename "$link")"
+            raw="$(readlink "$link")"
+            case "$raw" in
+                "$SKILLS_SRC"/*) ;;
+                *) continue ;;
+            esac
+            resolved="$(readlink -f "$link" 2>/dev/null || true)"
+            if [ -d "$resolved" ] && [ -f "$resolved/SKILL.md" ]; then
+                echo "OK: $label → $name"
+                ok=$((ok + 1))
+            else
+                echo "BROKEN: $label → $name ($raw)"
+                broken=$((broken + 1))
+            fi
+        done
+    done
+    echo ""
+    echo "$ok OK, $broken broken"
+    [ "$broken" -gt 0 ] && exit 1
+    exit 0
+fi
+
+if [ "$1" = "--commands" ] && [ -n "$2" ] && [ -n "$3" ]; then
+    install_commands "$2" "$3"
+    exit 0
+fi
+
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    usage
+    exit 0
+fi
+
+if [ "$1" = "--only" ]; then
+    case "$2" in
+        claude)
+            [ ! -d "$HOME/.claude" ] && { echo "Claude Code not found"; exit 1; }
+            link_skills_to "$HOME/.claude/skills" "Claude Code"
+            ;;
+        cursor)
+            [ ! -d "$HOME/.cursor" ] && { echo "Cursor not found"; exit 1; }
+            link_skills_to "$HOME/.cursor/skills" "Cursor"
+            ;;
+        gemini|antigravity)
+            [ ! -d "$HOME/.gemini" ] && { echo "Antigravity/Gemini not found"; exit 1; }
+            link_skills_to "$HOME/.gemini/skills" "Antigravity (Gemini)"
+            ;;
+        *)
+            echo "Unknown tool: $2 (use: claude, cursor, gemini)"
+            exit 1
+            ;;
+    esac
+    init_owner_goals
+    install_commands secret-agent "$REPO_DIR/.cursor/commands"
+    exit 0
+fi
+
+if [ ${#TARGETS[@]} -eq 0 ]; then
+    echo "No supported tools detected (~/.claude, ~/.cursor, ~/.gemini)."
+    exit 1
+fi
+
+first=true
+for entry in "${TARGETS[@]}"; do
+    dir="${entry%%|*}"
+    label="${entry##*|}"
+    $first || echo ""
+    first=false
+    link_skills_to "$dir" "$label"
+done
+
+echo ""
+init_owner_goals
+
+echo ""
+install_commands secret-agent "$REPO_DIR/.cursor/commands"
+
+echo ""
+echo "Requirements:"
+echo "  • Notion MCP (user-notion) connected"
+echo "  • Linear MCP (plugin-linear-linear) for professional weekly plan"
+echo ""
+echo "Slash commands (this repo):"
+echo "  .cursor/commands/weekly-plan.md"
+echo "  .cursor/commands/personal-weekly-plan.md"
+echo "  .cursor/commands/professional-weekly-plan.md"
+echo ""
+echo "To install commands elsewhere:"
+echo "  $REPO_DIR/setup --commands secret-agent <target-dir>"
+echo ""
+echo "To verify:"
+echo "  $REPO_DIR/setup --verify"
