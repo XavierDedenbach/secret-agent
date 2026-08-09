@@ -107,6 +107,37 @@ install_commands() {
     echo "Linked $count commands for $project_name → $target_dir"
 }
 
+install_all_commands() {
+    if [ -d "$HOME/.cursor" ]; then
+        install_commands secret-agent "$REPO_DIR/.cursor/commands"
+    fi
+
+    if [ -d "$HOME/.claude" ]; then
+        echo ""
+        install_commands secret-agent "$HOME/.claude/commands"
+    fi
+
+    if [ -d "$HOME/.gemini" ]; then
+        echo ""
+        install_antigravity_workflows
+    fi
+}
+
+install_antigravity_workflows() {
+    # Antigravity slash commands are "workflows" — several paths for IDE/CLI/codelab parity
+    install_commands secret-agent "$HOME/.gemini/config/global_workflows"
+    echo ""
+    install_commands secret-agent "$HOME/.gemini/antigravity/global_workflows"
+    echo ""
+    install_commands secret-agent "$REPO_DIR/.agents/workflows"
+}
+
+link_antigravity_skills() {
+    link_skills_to "$HOME/.gemini/skills" "Antigravity (Gemini)"
+    echo ""
+    link_skills_to "$HOME/.gemini/config/skills" "Antigravity (config/skills)"
+}
+
 init_owner_goals() {
     local state_dir="$SKILLS_SRC/weekly-plan/state"
     local template="$SKILLS_SRC/weekly-plan/templates/OWNER_GOALS.md"
@@ -119,10 +150,10 @@ init_owner_goals() {
 
 if [ "$1" = "--verify" ]; then
     ok=0; broken=0
-    for entry in "${TARGETS[@]}"; do
-        dir="${entry%%|*}"
-        label="${entry##*|}"
-        [ ! -d "$dir" ] && continue
+    verify_skill_dir() {
+        local dir="$1"
+        local label="$2"
+        [ ! -d "$dir" ] && return 0
         for link in "$dir"/*; do
             [ ! -L "$link" ] && continue
             name="$(basename "$link")"
@@ -140,6 +171,16 @@ if [ "$1" = "--verify" ]; then
                 broken=$((broken + 1))
             fi
         done
+    }
+    for entry in "${TARGETS[@]}"; do
+        dir="${entry%%|*}"
+        label="${entry##*|}"
+        if [ "$dir" = "$HOME/.gemini/skills" ]; then
+            verify_skill_dir "$HOME/.gemini/skills" "Antigravity (Gemini)"
+            verify_skill_dir "$HOME/.gemini/config/skills" "Antigravity (config/skills)"
+        else
+            verify_skill_dir "$dir" "$label"
+        fi
     done
     echo ""
     echo "$ok OK, $broken broken"
@@ -162,22 +203,26 @@ if [ "$1" = "--only" ]; then
         claude)
             [ ! -d "$HOME/.claude" ] && { echo "Claude Code not found"; exit 1; }
             link_skills_to "$HOME/.claude/skills" "Claude Code"
+            init_owner_goals
+            install_commands secret-agent "$HOME/.claude/commands"
             ;;
         cursor)
             [ ! -d "$HOME/.cursor" ] && { echo "Cursor not found"; exit 1; }
             link_skills_to "$HOME/.cursor/skills" "Cursor"
+            init_owner_goals
+            install_commands secret-agent "$REPO_DIR/.cursor/commands"
             ;;
         gemini|antigravity)
             [ ! -d "$HOME/.gemini" ] && { echo "Antigravity/Gemini not found"; exit 1; }
-            link_skills_to "$HOME/.gemini/skills" "Antigravity (Gemini)"
+            link_antigravity_skills
+            init_owner_goals
+            install_antigravity_workflows
             ;;
         *)
             echo "Unknown tool: $2 (use: claude, cursor, gemini)"
             exit 1
             ;;
     esac
-    init_owner_goals
-    install_commands secret-agent "$REPO_DIR/.cursor/commands"
     exit 0
 fi
 
@@ -192,27 +237,46 @@ for entry in "${TARGETS[@]}"; do
     label="${entry##*|}"
     $first || echo ""
     first=false
-    link_skills_to "$dir" "$label"
+    if [ "$dir" = "$HOME/.gemini/skills" ]; then
+        link_antigravity_skills
+    else
+        link_skills_to "$dir" "$label"
+    fi
 done
 
 echo ""
 init_owner_goals
 
 echo ""
-install_commands secret-agent "$REPO_DIR/.cursor/commands"
+install_all_commands
 
 echo ""
 echo "Requirements:"
 echo "  • Notion MCP (user-notion) connected"
 echo "  • Linear MCP (plugin-linear-linear) for professional weekly plan"
 echo ""
-echo "Slash commands (this repo):"
-echo "  .cursor/commands/weekly-plan.md"
-echo "  .cursor/commands/personal-weekly-plan.md"
-echo "  .cursor/commands/professional-weekly-plan.md"
+echo "Skills linked to:"
+for entry in "${TARGETS[@]}"; do
+    dir="${entry%%|*}"
+    label="${entry##*|}"
+    echo "  • $label → $dir"
+done
+echo ""
+echo "Slash commands / workflows:"
+echo "  • Cursor (this repo): .cursor/commands/"
+if [ -d "$HOME/.claude" ]; then
+    echo "  • Claude Code: ~/.claude/commands/"
+fi
+if [ -d "$HOME/.gemini" ]; then
+    echo "  • Antigravity global: ~/.gemini/config/global_workflows/"
+    echo "  • Antigravity IDE: ~/.gemini/antigravity/global_workflows/"
+    echo "  • Antigravity workspace: .agents/workflows/"
+fi
+echo "  workflow, weekly-plan, personal-weekly-plan, professional-weekly-plan"
 echo ""
 echo "To install commands elsewhere:"
 echo "  $REPO_DIR/setup --commands secret-agent <target-dir>"
+echo "  $REPO_DIR/setup --commands secret-agent ~/.gemini/config/global_workflows"
 echo ""
 echo "To verify:"
 echo "  $REPO_DIR/setup --verify"

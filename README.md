@@ -9,13 +9,13 @@ git clone https://github.com/XavierDedenbach/secret-agent.git ~/Documents/git/se
 ~/Documents/git/secret-agent/setup
 ```
 
-The setup script auto-detects Claude Code, Cursor, and Antigravity, symlinks skills into each tool's global skills directory, initializes `OWNER_GOALS.md` from template if missing, and installs slash commands into this repo's `.cursor/commands/`.
+The setup script auto-detects Claude Code, Cursor, and Antigravity, symlinks skills into each tool's global skills directory, initializes `OWNER_GOALS.md` from template if missing, and installs slash commands into this repo's `.cursor/commands/` plus `~/.claude/commands/` when Claude Code is present.
 
-| Tool | Skills directory |
-|------|------------------|
-| Claude Code | `~/.claude/skills/` |
-| Cursor | `~/.cursor/skills/` |
-| Antigravity (Gemini) | `~/.gemini/skills/` |
+| Tool | Skills | Slash commands / workflows |
+|------|--------|----------------------------|
+| Claude Code | `~/.claude/skills/` | `~/.claude/commands/` |
+| Cursor | `~/.cursor/skills/` | `.cursor/commands/` (this repo) |
+| Antigravity (Gemini) | `~/.gemini/skills/` + `~/.gemini/config/skills/` | `~/.gemini/config/global_workflows/` · `~/.gemini/antigravity/global_workflows/` · `.agents/workflows/` |
 
 ### Update after pull
 
@@ -37,25 +37,33 @@ cd ~/Documents/git/secret-agent && git pull && ./setup
 
 ## Slash commands
 
-Installed into `.cursor/commands/` by `./setup`:
+Installed by `./setup`:
 
 | Command | Action |
 |---------|--------|
+| `workflow` | **Entry point** — route to the correct skill |
 | `weekly-plan` | Full Sunday replan — personal → professional |
 | `personal-weekly-plan` | Personal focus dashboard only |
 | `professional-weekly-plan` | Work / technical goals only |
 
-Install commands into another project:
+**Cursor:** `.cursor/commands/` in this repo  
+**Claude Code:** `~/.claude/commands/` (when `~/.claude/` exists)  
+**Antigravity:** `~/.gemini/config/global_workflows/` + `.agents/workflows/` (when `~/.gemini/` exists)
+
+Install commands/workflows elsewhere:
 
 ```bash
-./setup --commands secret-agent .cursor/commands
+./setup --commands secret-agent .cursor/commands              # Cursor
+./setup --commands secret-agent ~/.claude/commands            # Claude Code
+./setup --commands secret-agent ~/.gemini/config/global_workflows  # Antigravity
 ```
 
 ## Skills
 
 | Skill | When to use |
 |-------|-------------|
-| **weekly-plan** | Router — "weekly plan", "Sunday replan", ambiguous planning |
+| **workflow** | **Entry point** — route any planning or agent request to the right skill |
+| **weekly-plan** | Router — full Sunday flow, bootstrap, cross-domain summary |
 | **notion-weekly-plan-personal** | Life goals, habits, reading, relationships |
 | **notion-weekly-plan-professional** | Work goals, technical delivery, Linear reconciliation |
 
@@ -88,7 +96,9 @@ The weekly plan is a **focus dashboard** — not a task list. It bridges 6-month
 
 ```
 .cursor/skills/
-  weekly-plan/                    ← router + shared assets
+  workflow/                       ← top-level router (entry point)
+    SKILL.md
+  weekly-plan/                    ← weekly-plan router + shared assets
     SKILL.md
     philosophy.md
     format-analysis.md

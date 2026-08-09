@@ -6,7 +6,8 @@ description: >-
   Each run ends with a Notion page link for owner review and approval. Use when
   the user mentions weekly plan, weekly replan, Sunday planning, grading last
   week's goals, setting this week's priorities, or focus dashboard. Delegates to
-  notion-weekly-plan-personal or notion-weekly-plan-professional.
+  notion-weekly-plan-personal or notion-weekly-plan-professional. For ambiguous
+  requests, prefer the workflow skill as the entry point.
 ---
 
 # Weekly Plan (Router)
