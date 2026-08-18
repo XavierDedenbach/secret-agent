@@ -3,8 +3,10 @@ name: notion-weekly-plan-professional
 description: >-
   Professional weekly focus dashboard in Notion — owner describes the week first,
   retro with Linear, reconciles due tickets, sets technical/team goals with Purpose,
-  interviews sub-tasks, writes Notion page, ends with link for approval. Use for work
-  weekly plan, technical goals, team updates, professional replan, or sharks/shipwrecks.
+  interviews sub-tasks, writes Notion page with Daily Focus Journal, ends with link
+  for approval. Mid-week: fill tomorrow's journal (top two + stretch). Use for work
+  weekly plan, technical goals, team updates, professional replan, sharks/shipwrecks,
+  daily focus journal, or tomorrow's focus.
 ---
 
 # Professional Weekly Plan
@@ -14,6 +16,8 @@ Executes the **professional** half of Xavier's Notion focus dashboard. For routi
 Shared config: [weekly-plan/notion.yaml](../weekly-plan/notion.yaml) · Templates: [weekly-plan/format-analysis.md](../weekly-plan/format-analysis.md)
 
 State file: `weekly-plan/state/OWNER_GOALS.md`
+
+**Approval rule (non-negotiable):** The owner approves **only** after opening the live Notion page. Chat recaps are not the plan. Never ask “reply approved and I’ll write the page.” If the interview is done, write the page immediately, send the URL, and wait. An “approved” before that URL exists is invalid.
 
 ---
 
@@ -27,8 +31,9 @@ Professional Weekly Plan:
 - [ ] 4. Linear reconciliation — this week's due items vs owner goals
 - [ ] 5. Plan interview — fill gaps (purpose, ladder, milestones, sharks)
 - [ ] 6. Subtask interview — one follow-up per sub-task per goal
-- [ ] 7. Write Notion page + OWNER_GOALS.md
-- [ ] 8. Review & approve — send link, wait for owner sign-off
+- [ ] 7. Write Notion page + OWNER_GOALS.md (always include Daily Focus Journal)
+- [ ] 8. Review & approve — send the live Notion URL; owner approves only after opening that page
+- [ ] 9. After approval — ask Released, then ask whether to set tomorrow's daily focus
 ```
 
 **Session order is fixed:** vision → retro → Linear reconcile → gaps → subtasks → write → approve.
@@ -37,9 +42,9 @@ Ask **one question at a time** (except step 2, where the owner speaks freely). T
 
 **Do not pull Linear or run retro before step 2 completes.** Early task-level input narrows the owner onto tickets instead of the broader picture they have been thinking about.
 
-**Do not skip step 6.** Do not write the Notion page body until subtask interviews are complete (draft in chat first if helpful).
+**Do not skip step 6.** Do not write the Notion page body until subtask interviews are complete. A chat recap is optional as an interview aid — **never request approval on chat**.
 
-**Do not mark the session complete until step 8** — the owner reviews the Notion page and approves or requests edits.
+**Do not mark the session complete until step 8.** The only acceptable approval is the owner viewing the Notion page (the URL you send) and then saying approved or requesting edits. If they say the interview is done before the page exists, write the page immediately and send the link — do not wait for a chat "approved."
 
 Shared interview rules: [subtask-interview.md](../weekly-plan/subtask-interview.md)
 
@@ -153,6 +158,7 @@ Then **Step 6** for subtasks. Do not write numbered goals to Notion yet.
 |---------|--------|
 | **Important Upcoming Milestones** | Copy unresolved from last week; update Status/Scope/Blockers/Due Date |
 | **Deferred** | Copy standing items |
+| **Daily Focus Journal** | Always generate the empty Mon–Sun skeleton. Fill only days the owner already volunteered (e.g. Monday off). Do **not** interview all seven days during Sunday planning. |
 | **Highlights** | "Any wins this week?" |
 | **Sharks and Shipwrecks** | Sharks = tracked risks; Shipwrecks = materialized issues |
 
@@ -180,8 +186,9 @@ Loop until every Xavier goal has concrete sub-tasks (or purpose-only treatment) 
 
 1. Append skeleton — **Xavier only** on new pages. See [format-analysis.md](../weekly-plan/format-analysis.md) § Professional.
 2. Insert numbered goals **after** template button blocks.
-3. Update OWNER_GOALS.md.
-4. Proceed to step 8 — do not end session here.
+3. Always insert **Daily Focus Journal** after Goals for This Week and before Important Upcoming Milestones. See § Daily Focus Journal below.
+4. Update OWNER_GOALS.md.
+5. **Do not treat the session as approved yet** — proceed to step 8 and send the live URL.
 
 ---
 
@@ -195,9 +202,71 @@ Your professional weekly plan for **<M/D> – <M/D>** is ready for review:
 **[<M/D/YY> - <M/D/YY> Technical Goals and Updates](<full Notion URL>)**
 ```
 
-After approval, ask: **"Mark plan as Released (shared with team)?"** → set `Released` checkbox if yes.
+Approval is **only** valid after the owner opens that Notion page. Do not accept "approved" against a chat draft.
+
+After approval, ask **one question at a time**:
+
+1. **"Mark plan as Released (shared with team)?"** → set `Released` checkbox if yes.
+2. **"Want to set tomorrow's daily focus now? (top two + stretch)"** → if yes, run § Daily Focus Journal (mid-week fill). If no, stop. If they already dictate tomorrow's focus in the same message, write it — do not re-ask.
 
 Re-send link after any edits until approved.
+
+---
+
+## Daily Focus Journal
+
+Required on **every** new professional weekly page. Execution home for the night-before top-two (+ stretch) habit.
+
+### Skeleton (always write)
+
+Place after `Goals for This Week` / Xavier numbered goals, **before** `Important Upcoming Milestones`. Dates are that week's Mon–Sun (America/Los_Angeles):
+
+```markdown
+# Daily Focus Journal
+Night-before top two (+ stretch). Leave a day blank until you plan it.
+### Monday M/D
+-
+### Tuesday M/D
+-
+### Wednesday M/D
+-
+### Thursday M/D
+-
+### Friday M/D
+-
+### Saturday M/D
+-
+### Sunday M/D
+-
+```
+
+Fill a day **only** when the owner already stated it (planning interview, cross-domain carry such as Monday off, or a mid-week fill). Leave the `-` placeholder on unplanned days. Do not invent focuses.
+
+When filling a day, use this shape:
+
+```markdown
+### Tuesday M/D
+1. <primary>
+2. <second>
+3. **Stretch:** <stretch>
+```
+
+A single-focus day (e.g. day off) may be one bullet: `- **Primary:** …`
+
+### Mid-week fill (next day)
+
+Triggers: after step 8 if the owner says yes; or any "daily journal" / "tomorrow's focus" / "set tomorrow" request.
+
+1. Open **this week's** professional page (do not create a new week).
+2. Next day = tomorrow in America/Los_Angeles. Sunday evening → Monday. If tomorrow is past this week's Sunday, say the journal week is over.
+3. Ask **one** question unless they already listed the focuses:
+
+   > "What's tomorrow's top two and stretch?"
+
+4. Update that day's H3 on the live page. Do not overwrite other days.
+5. Send the Notion URL. No second approval loop unless they ask for edits.
+
+Parse generously: if they name only a primary, write that and leave 2 / stretch blank. Carry Linear / weekly-goal numbers when they mention them.
 
 ---
 

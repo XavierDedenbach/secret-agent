@@ -2,10 +2,11 @@
 name: weekly-plan
 description: >-
   Routes weekly planning conversations to the correct Notion workflow — full
-  Sunday replan (personal then professional), personal-only, or professional-only.
-  Each run ends with a Notion page link for owner review and approval. Use when
-  the user mentions weekly plan, weekly replan, Sunday planning, grading last
-  week's goals, setting this week's priorities, or focus dashboard. Delegates to
+  Sunday replan (personal then professional), personal-only, professional-only,
+  or mid-week daily focus journal. Each weekly run ends with a Notion page link
+  for owner review and approval. Use when the user mentions weekly plan, weekly
+  replan, Sunday planning, grading last week's goals, setting this week's
+  priorities, focus dashboard, daily journal, or tomorrow's focus. Delegates to
   notion-weekly-plan-personal or notion-weekly-plan-professional. For ambiguous
   requests, prefer the workflow skill as the entry point.
 ---
@@ -46,6 +47,9 @@ User message
     ├─ "grade last week" / "retro" + context unclear
     │       → ASK: "Personal, professional, or both?"
     │
+    ├─ "daily journal" / "tomorrow's focus" / "set tomorrow" / "daily focus"
+    │       → PROFESSIONAL DAILY JOURNAL: fill next day on this week's page
+    │
     └─ "what are my goals this week" / mid-week check-in
             → READ ONLY: fetch current week's pages, summarize — no interview
 ```
@@ -57,6 +61,7 @@ User message
 | **Full** | "weekly plan", "Sunday replan", "let's plan the week", "weekly planning" |
 | **Personal** | "personal weekly plan", "my weekly plan", "life planning", "personal goals this week" |
 | **Professional** | "work weekly plan", "technical goals", "professional replan", "team goals" |
+| **Daily journal** | "tomorrow's focus", "daily journal", "set tomorrow", "daily focus" |
 | **Read-only** | "what's on my plan this week", "show my weekly goals", "am I on track" |
 
 When ambiguous, ask one question:
@@ -138,11 +143,15 @@ Read and follow the matching execution skill end-to-end through **step 6 (Review
 
 Every weekly plan run (personal, professional, or both) follows:
 
-1. Retro → goal interview → **subtask interview** (parse generously; one question only for open items) → write Notion → **send link → wait for approval**
+1. Retro → goal interview → **subtask interview** (parse generously; one question only for open items) → **write the Notion page** → **send the live URL** → wait for the owner to **open that page** and reply approved or edits
 
-Never skip the subtask interview. Never end without the Notion URL and an explicit approval request.
+Never skip the subtask interview. Never ask the owner to approve a chat draft. Never end without the Notion URL. Chat "approved" before the page exists is invalid — write the page and send the link.
 
 ---
+
+## Mid-week daily journal
+
+Do **not** run a full professional weekly interview. Read `notion-weekly-plan-professional` § Daily Focus Journal (mid-week fill) and update tomorrow on this week's professional page.
 
 ## Read-only check-in
 

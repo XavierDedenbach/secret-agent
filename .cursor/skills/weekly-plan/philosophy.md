@@ -22,7 +22,7 @@ When you stopped, the pages still existed but retros got skipped, goal counts ba
 |---------|-------|-------------------|
 | **6-month** | Goal Tracker DB | *Direction* — what kind of person/leader you're becoming |
 | **Weekly** | Personal + Professional plan pages | *Commitment* — what you'll actually do this week |
-| **Daily** | Calendar, daily review, morning brief | *Execution* — how the day maps to the week |
+| **Daily** | Professional page **Daily Focus Journal** + calendar | *Execution* — top two (+ stretch) for the day, mapped to the week |
 
 The weekly plan is the **bridge** between aspiration (6-month) and action (daily). Without it, daily work becomes reactive. With it, you can look at any task and ask "does this serve #3 this week?"
 
@@ -72,7 +72,7 @@ One thematic lens per week: Personal Growth → Business Growth → Time Managem
 | **Mindset** | Life design, habits, learning, relationships, founder journey | Team alignment, delivery, risk tracking, stakeholder comms |
 | **Goal shape** | `#N:` H2 blocks with Purpose/Sub-tasks | Numbered list under Xavier with Purpose/Subtasks |
 | **Audience** | Yourself | Yourself + team (Released checkbox) |
-| **Extra sections** | One Pager, improvement cues | Milestones, Highlights, Sharks/Shipwrecks |
+| **Extra sections** | One Pager, improvement cues | Daily Focus Journal, Milestones, Highlights, Sharks/Shipwrecks |
 | **Typical count** | 3–8 goals | 4–6 goals |
 | **When** | Sunday AM, or life-planning moments | Sunday PM / Monday AM, before team sync |
 
@@ -88,7 +88,7 @@ They share bootstrap (6-month goals, OWNER_GOALS.md) but should be **separate se
 | **Structure** | Aug–Oct 2024 | Grading key added; 6-month callout added; "What helps me focus" One Pager; Deferred list; improvement cues |
 | **Accountability** | Nov 2024–Apr 2025 | Consistent retro grading; reading tracker synced block; writing pipeline goals; Pass/No Pass on DB |
 | **Founder pivot** | Aug–Nov 2025 | Runway calc, idea generation, 6-month replan goals; Morpheus/founder content |
-| **Current** | 2026 | Ladders to 6-month goals (agent-added); CEO responsibilities integration; Goal Tracker formalized |
+| **Current** | 2026 | Ladders to 6-month goals (agent-added); CEO responsibilities integration; Goal Tracker formalized; Daily Focus Journal on professional pages (Aug 2026) |
 
 Format stabilized **Aug–Oct 2024**. Pages before that are ancestral; pages after follow the same skeleton with richer content.
 

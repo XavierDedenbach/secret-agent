@@ -16,6 +16,8 @@ Shared config: [weekly-plan/notion.yaml](../weekly-plan/notion.yaml) · Template
 
 State file: `weekly-plan/state/OWNER_GOALS.md`
 
+**Approval rule (non-negotiable):** The owner approves **only** after opening the live Notion page. Chat recaps are not the plan. Never ask “reply approved and I’ll write the page.” If the interview is done, write the page immediately, send the URL, and wait. An “approved” before that URL exists is invalid.
+
 ---
 
 ## Checklist
@@ -27,14 +29,14 @@ Personal Weekly Plan:
 - [ ] 3. Plan interview — goals, purpose, 6-month ladder (if applicable)
 - [ ] 4. Subtask interview — one follow-up per sub-task per goal
 - [ ] 5. Write Notion page + OWNER_GOALS.md
-- [ ] 6. Review & approve — send link, wait for owner sign-off
+- [ ] 6. Review & approve — send the live Notion URL; owner approves only after opening that page
 ```
 
 Ask **one question at a time**. **Enforce focus**: target 2–3 goals, push extras to Deferred.
 
-**Do not skip step 4.** Do not write the Notion page body until subtask interviews are complete (draft in chat first if helpful).
+**Do not skip step 4.** Do not write the Notion page body until subtask interviews are complete. A chat recap is optional as an interview aid — **never request approval on chat**.
 
-**Do not mark the session complete until step 6** — the owner reviews the Notion page and approves or requests edits.
+**Do not mark the session complete until step 6.** The only acceptable approval is the owner viewing the Notion page (the URL you send) and then saying approved or requesting edits. If they say the interview is done before the page exists, write the page immediately and send the link — do not wait for a chat "approved."
 
 Shared interview rules: [subtask-interview.md](../weekly-plan/subtask-interview.md)
 
@@ -129,13 +131,15 @@ Follow [subtask-interview.md](../weekly-plan/subtask-interview.md) — mental ch
 1. Create page if not exists; append full skeleton from [format-analysis.md](../weekly-plan/format-analysis.md) § Personal.
 2. Write all goals with Purpose, sub-tasks (with interview detail), optional Ladders to.
 3. Update OWNER_GOALS.md: Current Week, Completion Log (retro), rolling metrics.
-4. **Do not send the final link yet** — proceed to step 6.
+4. **Do not treat the session as approved yet** — proceed to step 6 and send the live URL.
 
 ---
 
 ## Step 6: Review & approve (mandatory final step)
 
 Follow [subtask-interview.md](../weekly-plan/subtask-interview.md) § Review & approve. Use page title **My Weekly Plan \<dates\>**.
+
+Approval is **only** valid after the owner opens that Notion page. Do not accept "approved" against a chat draft.
 
 ---
 

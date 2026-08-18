@@ -24,7 +24,7 @@ Owners rarely answer one sub-task at a time. Parse generously — do **not** re-
 | **Rich purpose, no sub-tasks** | For habit/behavior goals, purpose + success criteria may be enough. Do not invent sub-tasks unless the owner wants them. |
 | **TBD / unspecified** | Record sub-task as TBD; do not block the interview on it. |
 | **Correction** ("I told you already") | Re-read the conversation, capture missed answers, acknowledge briefly, move on — never repeat the same question. |
-| **Approval** ("approved") | Mark that domain complete; do not re-open interview unless owner requests edits. |
+| **Approval** ("approved") | Valid **only** after the Notion page exists **and** the owner has opened that URL. Chat-draft "approved" / "that's it" / "looks good" is **not** sign-off — write the page, send the link, wait. |
 | **Cross-domain item** | If personal plan captured a work action (e.g. "tell team I'm off Monday"), carry it to professional plan — do not re-interview unless details are missing. |
 
 ---
@@ -57,29 +57,35 @@ Also apply one follow-up per row when the owner adds or updates:
 | **Sharks** | "What would turn this shark into a shipwreck this week?" |
 | **Shipwrecks** | "What's the recovery action and owner?" |
 | **CEO weekly items** | "Timeboxed when — and what does done look like?" |
+| **Daily Focus Journal** | Do not interview all seven days at plan-write. After approval, ask whether to set **tomorrow** (top two + stretch). Mid-week, same one question. |
 
 **Human-first planning (professional):** Fixed order — owner vision for upcoming week (step 2) → retro with Linear last week (step 3) → Linear reconcile this week (step 4a). No Linear or retro before step 2. See `notion-weekly-plan-professional`.
 
-Do not write the Notion page body until subtask interviews (and brief standing-section prompts) are complete. Draft in chat first if helpful.
+Do not write the Notion page body until subtask interviews (and brief standing-section prompts) are complete. A chat recap is an interview aid only — **never ask the owner to approve a chat draft**.
 
 ---
 
 ## Review & approve (step 6 — both domains)
 
-Always end each domain session with the Notion link and an explicit approval request:
+**The only valid approval is the owner opening the Notion page and then saying "approved" (or requesting edits).**
+
+Never treat a chat summary as the plan. Never ask "reply approved and I'll write the page." If the owner says the interview is done, **write the Notion page immediately**, send the URL, and wait.
+
+Always end each domain session with the live Notion link and this request (the link must already exist):
 
 ```markdown
 Your <personal|professional> weekly plan for **<M/D> – <M/D>** is ready for review:
 
 **[<page title>](<full Notion URL>)**
 
-Please open the page and reply:
-- **"approved"** — plan is locked for the week, or
-- **edits** — tell me what to change and I will update Notion.
+Please **open the Notion page** and reply:
+- **"approved"** — you have viewed the page and the plan is locked for the week, or
+- **edits** — tell me what to change on the page and I will update Notion, then re-send this link.
 ```
 
 Rules:
-- The Notion link is the **last substantive output** of that domain's session.
-- Do not consider the skill complete until the owner approves or requests edits.
-- If edits requested, update Notion, then **re-send the link** and ask for approval again.
-- Optional: include a brief summary table above the link, but the link must always be present.
+- The Notion URL is the **only** approval surface. Chat text is not the plan.
+- Do not consider the skill complete until the owner has opened that URL and replies approved or edits.
+- An "approved" sent **before** the page exists (or before the link was sent) is invalid — write/send the page, then ask again.
+- If edits requested, update Notion, then **re-send the same link** and ask for approval again.
+- Optional: include a brief summary table above the link, but the live link must always be present and is what they approve.

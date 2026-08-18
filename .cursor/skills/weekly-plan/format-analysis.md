@@ -93,10 +93,11 @@ Derived from 30+ live Notion pages reviewed 2026-08-09. Full philosophy: [philos
 5. *(Legacy pages only)* **H3** `Katie` / `Jon` — same retro structure. **New pages: Xavier only** (per 2026-04-19 rule)
 6. **H1** `Goals for This Week:`
 7. **H3** `Xavier` → `[template button block]` then numbered goals with Purpose/Subtasks
-8. **H1** `Important Upcoming Milestones:` — bullets with Status / Scope / Blockers / Due Date sub-structure
-9. **H1** `Deferred` — bullet list (often standing items like "Residency on electrolyzer teams")
-10. **H1** `Highlights`
-11. **H1** `Sharks and Shipwrecks`
+8. **H1** `Daily Focus Journal` — Mon–Sun H3s for that week; fill only days the owner stated. Intro: *Night-before top two (+ stretch). Leave a day blank until you plan it.* (required as of 2026-08-18)
+9. **H1** `Important Upcoming Milestones:` — bullets with Status / Scope / Blockers / Due Date sub-structure
+10. **H1** `Deferred` — bullet list (often standing items like "Residency on electrolyzer teams")
+11. **H1** `Highlights`
+12. **H1** `Sharks and Shipwrecks`
     - **Sharks** = active risks being tracked
     - **Shipwrecks** = issues that materialized
 
